@@ -1,0 +1,15 @@
+self.addEventListener('install', e => {
+    e.waitUntil(
+        caches.open("Static").then(cache => {
+            return cache.addAll(["./", "./images/logo192.png"]);
+        })
+    );
+});
+
+self.addEventListener("fetch", e => {
+    e.respondWidth(
+        caches.match(e.request).then(response => {
+            return response || fetch(e.request);
+        })
+    );
+});
